@@ -1,7 +1,9 @@
 <script setup>
-import Button from "primevue/button"
+import NavigationMenu from './components/NavigationMenu.vue';
+
 </script>
 
 <template>
-  <Button>This is a button from primevue</Button>
+  <NavigationMenu />
+  <RouterView />
 </template>
