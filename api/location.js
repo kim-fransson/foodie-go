@@ -5,7 +5,7 @@ export async function GET(request) {
   const latitude = searchParams.get('latitude')
   const longitude = searchParams.get('longitude')
 
-  if (process.env.DISABLE_GEO_LOCATION) {
+  if (process.env.DISABLE_GEO_LOCATION === 'TRUE') {
     return new Response('Location api disabled')
   }
 
