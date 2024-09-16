@@ -16,8 +16,9 @@ const buttonRef = useTemplateRef('button-ref');
 async function getLocation(latitude, longitude) {
     loading.value = true;
     try {
-        const res = await fetch(`/api/location?latitude=${latitude}&longitude=${longitude}`);
-        const data = (await res.json());
+        let data = undefined
+        // const res = await fetch(`/api/location?latitude=${latitude}&longitude=${longitude}`);
+        // const data = (await res.json());
         if (data.road) {
             location.value = data.road;
         } else {

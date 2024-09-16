@@ -1,4 +1,8 @@
 <script setup>
+// todo:
+//      * Scroll behavior for mobile?
+//      * Accessibility improvements for keyboard
+
 import { ref, watchEffect } from 'vue';
 import { useResizeObserver } from '@vueuse/core'
 
@@ -74,8 +78,6 @@ watchEffect(() => {
         isRightButtonVisible.value = translateList.value + listRef.value.clientWidth < listRef.value.scrollWidth;
     }
 })
-
-
 
 </script>
 
