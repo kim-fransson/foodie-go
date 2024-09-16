@@ -9,6 +9,10 @@ const loading = ref(false)
 const location = ref()
 const buttonRef = useTemplateRef('button-ref');
 
+// todo:
+//      * Debouncing or invalidate stale request
+//      * Store location for the session
+//      * Don't make request if we can fetch location from session
 async function getLocation(latitude, longitude) {
     loading.value = true;
     try {
