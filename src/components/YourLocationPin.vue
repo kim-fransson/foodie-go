@@ -51,7 +51,7 @@ function handleButtonClick() {
             <span v-else>{{ location ? location : "We could not find your location" }}</span>
         </div>
 
-        <div v-if="!location" tabindex="0" class="card dropdown-content bg-base-100 rounded-box z-[1] w-96 shadow-lg">
+        <div v-if="!location" tabindex="0" class="card dropdown-content bg-white rounded-box z-[1] w-96 shadow-lg">
             <div tabindex="0" class="card-body">
                 <h2 class="card-title">How to enable location access on your browser</h2>
                 <p class="font-medium">On your browser</p>

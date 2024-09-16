@@ -4,6 +4,8 @@ import NavigationMenu from './components/NavigationMenu.vue';
 </script>
 
 <template>
-  <NavigationMenu />
-  <RouterView />
+  <div class="grid grid-rows-[auto_1fr] min-h-screen">
+    <NavigationMenu />
+    <RouterView />
+  </div>
 </template>

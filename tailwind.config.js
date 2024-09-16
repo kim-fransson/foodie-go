@@ -11,7 +11,7 @@ export default {
     extend: {}
   },
   daisyui: {
-    themes: ['emerald']
+    themes: ['nord']
   },
   plugins: [daisyui]
 }

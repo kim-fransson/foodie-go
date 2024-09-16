@@ -19,7 +19,7 @@ const isEmpty = computed(() => shoppingCart.items.length === 0)
                 </span>
             </div>
         </div>
-        <div v-if="isEmpty" tabindex="0" class="card dropdown-content bg-base-100 rounded-box z-[1] w-96 shadow-lg">
+        <div v-if="isEmpty" tabindex="0" class="card dropdown-content bg-white rounded-box z-[1] w-96 shadow-lg">
             <div tabindex="0" class="card-body items-center text-center">
                 <ShoppingCartIcon />
                 <h2 class="card-title">Your cart is empty</h2>
