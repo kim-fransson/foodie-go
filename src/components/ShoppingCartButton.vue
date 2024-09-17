@@ -13,7 +13,7 @@ const isEmpty = computed(() => shoppingCart.items.length === 0)
     <div class="dropdown dropdown-end dropdown-bottom">
         <div tabindex="0" role="button" class="btn btn-circle btn-ghost">
             <div class="indicator">
-                <span class="indicator-item badge badge-secondary">0</span>
+                <span class="indicator-item badge badge-primary">0</span>
                 <span class="m-0.5">
                     <ShoppingCartIcon />
                 </span>

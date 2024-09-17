@@ -1,8 +1,8 @@
 <script setup>
 import DeliveryPickupToggle from './DeliveryPickupToggle.vue';
+import LocalizationIcon from './icons/basic/LocalizationIcon.vue';
 import LogoIcon from './icons/basic/LogoIcon.vue';
 import ShoppingCartButton from './ShoppingCartButton.vue';
-import YourLocationPin from './YourLocationPin.vue';
 </script>
 
 <template>
@@ -13,7 +13,10 @@ import YourLocationPin from './YourLocationPin.vue';
             </div>
             <div className="navbar-center flex gap-8">
                 <DeliveryPickupToggle />
-                <YourLocationPin />
+                <div class="flex gap-2">
+                    <LocalizationIcon />
+                    136 Greenpoint Ave
+                </div>
             </div>
             <div className="navbar-end flex gap-6">
                 <ShoppingCartButton />
