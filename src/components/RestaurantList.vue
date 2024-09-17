@@ -1,0 +1,92 @@
+<script setup>
+import { ref, watchEffect } from 'vue';
+import StarFilledIcon from './icons/basic/StarFilledIcon.vue';
+import DistanceIcon from './icons/basic/DistanceIcon.vue';
+import AddressIcon from './icons/basic/AddressIcon.vue';
+import PickupIcon from './icons/basic/PickupIcon.vue';
+
+
+const restaurants = ref([])
+
+watchEffect(async () => {
+    try {
+        await fetch('/api/restaurants')
+            .then((res) => res.json())
+            .then((json) => restaurants.value = json.restaurants)
+    } catch (error) {
+        // todo
+    }
+})
+
+function getImagePath(type) {
+    const formattedType = type.split(' ').join('-').toLowerCase() + '.jpg';
+    const imageImports = import.meta.glob('@/assets/images/*.jpg')
+    const imageImport = imageImports[`/src/assets/images/${formattedType}`];
+
+    return imageImport.name;
+
+}
+
+</script>
+
+<template>
+    <div>
+        <h2 class="text-2xl font-semibold">Order from {{ restaurants.length }} places</h2>
+
+        <ol class="grid gap-8 mt-4">
+            <li v-for="restaurant in restaurants" :key="restaurant.id">
+                <div class="card lg:card-side bg-base-100 shadow-xl gap-4">
+                    <figure>
+                        <img :src="getImagePath(restaurant.types[0])"
+                            :alt="`Stock image for ${restaurant.types[0]} food`"
+                            class="w-[185px] h-[120px] object-cover rounded-r-lg" />
+                    </figure>
+                    <div class="card-body p-0 justify-center">
+                        <h2 class="card-title capitalize">{{ restaurant.name }}</h2>
+                        <span class="capitalize">{{ restaurant.types.join(', ') }}</span>
+                        <div class="flex gap-2 items-center">
+                            <span class="flex gap-1 text-sm">
+                                <StarFilledIcon class="h-4 w-4" />
+                                {{ restaurant.rating + ` (${restaurant.numberOfReviews}+)` }}
+                            </span>
+
+                            &bull;
+
+                            <span class="flex gap-1 text-sm">
+                                <DistanceIcon class="h-4 w-4" />
+                                {{ `${restaurant.distance} km` }}
+                            </span>
+
+                            &bull;
+
+                            <span class="flex gap-1 text-sm">
+                                <AddressIcon class="h-4 w-4" />
+                                {{ restaurant.address }}
+                            </span>
+
+                            <!-- <span class="flex gap-1 text-sm">
+                                <PickupIcon class="text-primary h-4 w-4" />
+                                <span v-if="restaurant.deliveryFee !== 0">{{ `$ ${restaurant.deliveryFee}` }}</span>
+                                <span v-else class="text-primary">Free</span>
+                            </span> -->
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</template>
+
+/* Rectangle 30 */
+
+position: absolute;
+left: 0.06%;
+right: 0%;
+top: 0%;
+bottom: 0%;
+
+/* White */
+background: #FFFFFF;
+/* Shadow */
+box-shadow: 0px 8px 13px rgba(0, 0, 0, 0.16);
+border-radius: 16px;
