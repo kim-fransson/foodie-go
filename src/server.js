@@ -10,6 +10,7 @@ export function makeServer({ environment = 'test' }) {
     routes() {
       this.namespace = 'api'
       this.get('/restaurants')
+      this.get('/restaurants/:id')
     },
     seeds(server) {
       server.createList('restaurant', 100)

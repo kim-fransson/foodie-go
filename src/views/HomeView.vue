@@ -1,5 +1,5 @@
 <script setup>
-import BasicSearch from '@/components/BasicSearch.vue';
+import DebounceSearch from '@/components/DebounceSearch.vue';
 import BasicToggle from '@/components/BasicToggle.vue';
 import FoodFilters from '@/components/FoodFilters.vue';
 import RestaurantList from '@/components/RestaurantList.vue';
@@ -22,7 +22,7 @@ const restaurantPreferences = useRestaurantPreferences()
             </div>
 
             <div class="grid grid-cols-12 gap-y-8 gap-x-4 grid-rows-[auto_1fr]">
-                <BasicSearch v-model="restaurantPreferences.searchQuery" class="col-span-8"
+                <DebounceSearch v-model="restaurantPreferences.searchQuery" class="col-span-8"
                     placeholder="What you want to eat today?" />
                 <SortByDropdown class="col-span-4" />
 

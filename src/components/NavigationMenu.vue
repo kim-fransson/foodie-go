@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from 'vue-router';
 import DeliveryPickupToggle from './DeliveryPickupToggle.vue';
 import LocalizationIcon from './icons/basic/LocalizationIcon.vue';
 import LogoIcon from './icons/basic/LogoIcon.vue';
@@ -9,7 +10,9 @@ import ShoppingCartButton from './ShoppingCartButton.vue';
     <div className="flex justify-center">
         <div class="navbar max-w-screen-2xl p-4">
             <div className="navbar-start">
-                <LogoIcon />
+                <RouterLink to="/">
+                    <LogoIcon />
+                </RouterLink>
             </div>
             <div className="navbar-center flex gap-8">
                 <DeliveryPickupToggle />

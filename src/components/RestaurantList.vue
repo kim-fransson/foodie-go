@@ -8,6 +8,7 @@ import { useUserSettingsStore } from '@/stores/user-settings';
 import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
 import SearchIcon from './icons/basic/SearchIcon.vue';
 import Fuse from 'fuse.js';
+import { getImagePath } from '@/utils/restaurant';
 
 const userSettings = useUserSettingsStore();
 const restaurantPreferences = useRestaurantPreferences();
@@ -60,12 +61,6 @@ const filteredAndSortedRestaurants = computed(() => {
     })
 })
 
-function getImagePath(type) {
-    const formattedType = type.split(' ').join('-').toLowerCase() + '.jpg';
-    const imageImport = `images/${formattedType}`;
-    return imageImport;
-}
-
 </script>
 
 <template>
@@ -74,45 +69,48 @@ function getImagePath(type) {
 
         <ol class="grid gap-8 mt-4">
             <li v-for="restaurant in filteredAndSortedRestaurants" :key="restaurant.id">
-                <div class="card lg:card-side bg-base-100 shadow-xl gap-4">
-                    <figure>
-                        <img :src="getImagePath(restaurant.types[0])"
-                            :alt="`Stock image for ${restaurant.types[0]} food`"
-                            class="w-[185px] h-[120px] object-cover rounded-r-lg" />
-                    </figure>
-                    <div class="card-body p-0 justify-center">
-                        <h2 class="card-title capitalize">{{ restaurant.name }}</h2>
-                        <span class="capitalize">{{ restaurant.types.join(', ') }}</span>
-                        <div class="flex gap-2 items-center">
+                <RouterLink :to="`/restaurants/${restaurant.id}`">
+                    <div class="card lg:card-side bg-base-100 shadow-xl gap-4">
+                        <figure>
+                            <img :src="getImagePath(restaurant.types[0])"
+                                :alt="`Stock image for ${restaurant.types[0]} food`"
+                                class="w-[185px] h-[120px] object-cover rounded-r-lg" />
+                        </figure>
+                        <div class="card-body p-0 justify-center">
+                            <h2 class="card-title capitalize">{{ restaurant.name }}</h2>
+                            <span class="capitalize">{{ restaurant.types.join(', ') }}</span>
+                            <div class="flex gap-2 items-center">
 
-                            <span class="flex gap-1 items-center text-sm">
-                                <StarFilledIcon class="h-4 w-4" />
-                                {{ restaurant.rating + ` (${restaurant.numberOfReviews}+)` }}
-                            </span>
+                                <span class="flex gap-1 items-center text-sm">
+                                    <StarFilledIcon class="h-4 w-4" />
+                                    {{ restaurant.rating + ` (${restaurant.numberOfReviews}+)` }}
+                                </span>
 
-                            &bull;
+                                &bull;
 
-                            <span class="flex gap-1 items-center text-sm">
-                                <DistanceIcon class="h-4 w-4" />
-                                {{ `${restaurant.distance} km` }}
-                            </span>
+                                <span class="flex gap-1 items-center text-sm">
+                                    <DistanceIcon class="h-4 w-4" />
+                                    {{ `${restaurant.distance} km` }}
+                                </span>
 
-                            &bull;
+                                &bull;
 
-                            <span v-if="userSettings.orderFulfillment === 'PICKUP'"
-                                class="flex gap-1 items-center text-sm">
-                                <AddressIcon class="h-4 w-4" />
-                                {{ restaurant.address }}
-                            </span>
+                                <span v-if="userSettings.orderFulfillment === 'PICKUP'"
+                                    class="flex gap-1 items-center text-sm">
+                                    <AddressIcon class="h-4 w-4" />
+                                    {{ restaurant.address }}
+                                </span>
 
-                            <span v-else class="flex gap-1 items-center text-sm">
-                                <PickupIcon class="text-primary h-4 w-4" />
-                                <span v-if="restaurant.deliveryFee !== '0.0'">{{ `$ ${restaurant.deliveryFee}` }}</span>
-                                <span v-else class="text-primary">Free</span>
-                            </span>
+                                <span v-else class="flex gap-1 items-center text-sm">
+                                    <PickupIcon class="text-primary h-4 w-4" />
+                                    <span v-if="restaurant.deliveryFee !== '0.0'">{{ `$ ${restaurant.deliveryFee}`
+                                        }}</span>
+                                    <span v-else class="text-primary">Free</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </RouterLink>
             </li>
         </ol>
     </div>
