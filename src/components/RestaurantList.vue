@@ -1,14 +1,18 @@
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { computed, onMounted, ref, watchEffect } from 'vue';
 import StarFilledIcon from './icons/basic/StarFilledIcon.vue';
 import DistanceIcon from './icons/basic/DistanceIcon.vue';
 import AddressIcon from './icons/basic/AddressIcon.vue';
 import PickupIcon from './icons/basic/PickupIcon.vue';
+import { useUserSettingsStore } from '@/stores/user-settings';
+import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
+
+const userSettings = useUserSettingsStore();
+const restaurantPreferences = useRestaurantPreferences();
 
 
 const restaurants = ref([])
-
-watchEffect(async () => {
+onMounted(async () => {
     try {
         await fetch('/api/restaurants')
             .then((res) => res.json())
@@ -18,23 +22,32 @@ watchEffect(async () => {
     }
 })
 
+const filteredAndSortedRestaurants = computed(() => {
+    return restaurants.value.filter(r => {
+        const freeDeliveryCondition = !restaurantPreferences.freeDelivery || r.deliveryFee === "0.0";
+        const openNowCondition = !restaurantPreferences.openNow || r.isOpen;
+        const minRatingCondition = restaurantPreferences.minRating == null || r.rating >= restaurantPreferences.minRating;
+
+        return freeDeliveryCondition && openNowCondition && minRatingCondition;
+    });
+})
+
 function getImagePath(type) {
     const formattedType = type.split(' ').join('-').toLowerCase() + '.jpg';
     const imageImports = import.meta.glob('@/assets/images/*.jpg')
     const imageImport = imageImports[`/src/assets/images/${formattedType}`];
 
     return imageImport.name;
-
 }
 
 </script>
 
 <template>
     <div>
-        <h2 class="text-2xl font-semibold">Order from {{ restaurants.length }} places</h2>
+        <h2 class="text-2xl font-semibold">Order from {{ filteredAndSortedRestaurants.length }} places</h2>
 
         <ol class="grid gap-8 mt-4">
-            <li v-for="restaurant in restaurants" :key="restaurant.id">
+            <li v-for="restaurant in filteredAndSortedRestaurants" :key="restaurant.id">
                 <div class="card lg:card-side bg-base-100 shadow-xl gap-4">
                     <figure>
                         <img :src="getImagePath(restaurant.types[0])"
@@ -45,30 +58,32 @@ function getImagePath(type) {
                         <h2 class="card-title capitalize">{{ restaurant.name }}</h2>
                         <span class="capitalize">{{ restaurant.types.join(', ') }}</span>
                         <div class="flex gap-2 items-center">
-                            <span class="flex gap-1 text-sm">
+
+                            <span class="flex gap-1 items-center text-sm">
                                 <StarFilledIcon class="h-4 w-4" />
                                 {{ restaurant.rating + ` (${restaurant.numberOfReviews}+)` }}
                             </span>
 
                             &bull;
 
-                            <span class="flex gap-1 text-sm">
+                            <span class="flex gap-1 items-center text-sm">
                                 <DistanceIcon class="h-4 w-4" />
                                 {{ `${restaurant.distance} km` }}
                             </span>
 
                             &bull;
 
-                            <span class="flex gap-1 text-sm">
+                            <span v-if="userSettings.orderFulfillment === 'PICKUP'"
+                                class="flex gap-1 items-center text-sm">
                                 <AddressIcon class="h-4 w-4" />
                                 {{ restaurant.address }}
                             </span>
 
-                            <!-- <span class="flex gap-1 text-sm">
+                            <span v-else class="flex gap-1 items-center text-sm">
                                 <PickupIcon class="text-primary h-4 w-4" />
                                 <span v-if="restaurant.deliveryFee !== 0">{{ `$ ${restaurant.deliveryFee}` }}</span>
                                 <span v-else class="text-primary">Free</span>
-                            </span> -->
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -76,17 +91,3 @@ function getImagePath(type) {
         </ol>
     </div>
 </template>
-
-/* Rectangle 30 */
-
-position: absolute;
-left: 0.06%;
-right: 0%;
-top: 0%;
-bottom: 0%;
-
-/* White */
-background: #FFFFFF;
-/* Shadow */
-box-shadow: 0px 8px 13px rgba(0, 0, 0, 0.16);
-border-radius: 16px;

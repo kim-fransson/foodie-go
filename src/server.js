@@ -12,7 +12,7 @@ export function makeServer({ environment = 'test' }) {
       this.get('/restaurants')
     },
     seeds(server) {
-      server.createList('restaurant', 10)
+      server.createList('restaurant', 100)
     },
     factories: {
       restaurant: Factory.extend({
