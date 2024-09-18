@@ -94,7 +94,7 @@ function getImagePath(type) {
 
                             <span v-else class="flex gap-1 items-center text-sm">
                                 <PickupIcon class="text-primary h-4 w-4" />
-                                <span v-if="restaurant.deliveryFee !== 0">{{ `$ ${restaurant.deliveryFee}` }}</span>
+                                <span v-if="restaurant.deliveryFee !== '0.0'">{{ `$ ${restaurant.deliveryFee}` }}</span>
                                 <span v-else class="text-primary">Free</span>
                             </span>
                         </div>
