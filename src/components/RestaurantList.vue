@@ -49,10 +49,8 @@ const filteredAndSortedRestaurants = computed(() => {
 
 function getImagePath(type) {
     const formattedType = type.split(' ').join('-').toLowerCase() + '.jpg';
-    const imageImports = import.meta.glob('@/assets/images/*.jpg')
-    const imageImport = imageImports[`/src/assets/images/${formattedType}`];
-
-    return imageImport.name;
+    const imageImport = `images/${formattedType}`;
+    return imageImport;
 }
 
 </script>
