@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watchEffect } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import StarFilledIcon from './icons/basic/StarFilledIcon.vue';
 import DistanceIcon from './icons/basic/DistanceIcon.vue';
 import AddressIcon from './icons/basic/AddressIcon.vue';
@@ -27,9 +27,24 @@ const filteredAndSortedRestaurants = computed(() => {
         const freeDeliveryCondition = !restaurantPreferences.freeDelivery || r.deliveryFee === "0.0";
         const openNowCondition = !restaurantPreferences.openNow || r.isOpen;
         const minRatingCondition = restaurantPreferences.minRating == null || r.rating >= restaurantPreferences.minRating;
+        const foodTypeCondition = !restaurantPreferences.foodType || r.types.some(t => t === restaurantPreferences.foodType);
 
-        return freeDeliveryCondition && openNowCondition && minRatingCondition;
-    });
+        return freeDeliveryCondition && openNowCondition && minRatingCondition && foodTypeCondition;
+    }).sort((a, b) => {
+        switch (restaurantPreferences.sortBy) {
+            case 'distance':
+                return a.distance > b.distance
+            case 'alpha_desc':
+                return a.name > b.name
+            case 'alpha_asc':
+                return a.name < b.name
+            default:
+                if (a.rating !== b.rating) {
+                    return b.rating - a.rating;
+                }
+                return b.numberOfReviews - a.numberOfReviews;
+        }
+    })
 })
 
 function getImagePath(type) {

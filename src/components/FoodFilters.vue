@@ -21,6 +21,9 @@ import SeafoodIcon from './icons/food/SeafoodIcon.vue';
 import SushiIcon from './icons/food/SushiIcon.vue';
 import VeganIcon from './icons/food/VeganIcon.vue';
 import ArrowIcon from './icons/basic/ArrowIcon.vue';
+import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
+
+const restaurantPreferences = useRestaurantPreferences();
 
 const TRANSLATE_AMOUNT = 200;
 
@@ -40,12 +43,6 @@ const filters = [
     { value: "sushi", icon: SushiIcon },
     { value: "vegan", icon: VeganIcon }
 ];
-
-const selectedFilter = ref('')
-
-function selectFilter(filter) {
-    selectedFilter.value = selectedFilter.value === filter ? '' : filter
-}
 
 const listRef = ref(null);
 const translateList = ref(0);
@@ -93,8 +90,8 @@ watchEffect(() => {
             class="flex gap-12 transition-transform duration-300">
             <div v-for="filter in filters" :key="filter.value">
                 <input class="appearance-none outline-none absolute peer" type="checkbox" name="food-filter"
-                    :value="filter.value" :id="filter.value" :checked="selectedFilter === filter.value"
-                    @change="selectFilter(filter.value)">
+                    :true-value="filter.value" false-value="" :id="filter.value"
+                    v-model="restaurantPreferences.foodType">
                 <label
                     class="inline-flex flex-col items-center cursor-pointer peer-checked:bg-primary transition-colors rounded-lg p-1"
                     :for="filter.value">

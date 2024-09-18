@@ -1,16 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core'
+import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
+import { closeDropdown } from '@/utils/daisy-ui';
+
+const restaurantPreferences = useRestaurantPreferences();
+const selectedSortBy = ref(restaurantPreferences.sortBy);
 
 const dropdown = ref(null);
-
-function closeDropdown() {
-    dropdown.value.removeAttribute('open');
-}
-
-onClickOutside(dropdown, () => {
-    closeDropdown()
-});
 
 const sortByItems = [
     { value: 'recommended', text: 'Recommended' },
@@ -19,32 +16,43 @@ const sortByItems = [
     { value: 'distance', text: 'Distance' },
 ]
 
-const selected = ref(sortByItems[0]);
+onClickOutside(dropdown, () => {
+    selectedSortBy.value = restaurantPreferences.sortBy;
+    closeDropdown(dropdown)
+});
+
+function cancel() {
+    selectedSortBy.value = restaurantPreferences.sortBy;
+    closeDropdown(dropdown);
+}
 
 function applySortBy() {
-    closeDropdown()
+    restaurantPreferences.sortBy = selectedSortBy.value;
+    closeDropdown(dropdown)
 }
+
+const selectedText = computed(() => sortByItems.find(i => i.value === restaurantPreferences.sortBy).text)
 
 </script>
 
 <template>
     <details ref="dropdown" class="dropdown dropdown-end self-start">
-        <summary class="select select-primary select-sm w-full">{{ selected.text }}</summary>
+        <summary class="select select-primary select-sm w-full">{{ selectedText }}</summary>
         <div tabindex="0" class="card mt-2 dropdown-content bg-white rounded-box z-[1] w-fit shadow-lg">
             <div tabindex="0" class="card-body">
                 <h2 class="card-title">Sort by</h2>
                 <fieldset>
                     <div v-for="sortBy in sortByItems" :key="sortBy.value">
                         <label class="label cursor-pointer justify-start gap-3">
-                            <input type="radio" :id="sortBy.value" name="order_by" :value="sortBy"
-                                class="radio radio-xs radio-primary" />
+                            <input type="radio" :id="sortBy.value" name="sort_by" :value="sortBy.value"
+                                v-model="selectedSortBy" class="radio radio-xs radio-primary" />
                             <span class="label-text font-medium whitespace-nowrap">{{ sortBy.text }}</span>
                         </label>
                         <div class="divider my-0.5"></div>
                     </div>
                 </fieldset>
                 <div class="card-actions justify-end">
-                    <button @click="closeDropdown()" class="btn btn-ghost">Cancel</button>
+                    <button @click="cancel()" class="btn btn-ghost">Cancel</button>
                     <button @click="applySortBy()" class="btn btn-primary">Apply</button>
                 </div>
             </div>
