@@ -8,6 +8,7 @@ export const useRestaurantPreferences = defineStore('restaurant-preferences', {
       freeDelivery: false,
       openNow: false,
       foodType: '',
+      searchQuery: '',
 
       // sorting
       sortBy: 'recommended'

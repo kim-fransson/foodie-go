@@ -22,7 +22,8 @@ const restaurantPreferences = useRestaurantPreferences()
             </div>
 
             <div class="grid grid-cols-12 gap-y-8 gap-x-4 grid-rows-[auto_1fr]">
-                <BasicSearch class="col-span-8" placeholder="What you want to eat today?" />
+                <BasicSearch v-model="restaurantPreferences.searchQuery" class="col-span-8"
+                    placeholder="What you want to eat today?" />
                 <SortByDropdown class="col-span-4" />
 
                 <div class="col-span-full">

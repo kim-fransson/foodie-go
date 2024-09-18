@@ -21,7 +21,7 @@ const orderTypes = [
             <label :for="orderType.value" class="flex gap-1 peer-focus-visible:outline peer-focus-visible:outline-2
                 peer-checked:text-primary peer-checked:bg-white rounded-full px-1.5 py-1 cursor-pointer select-none">
                 <component :is="orderType.icon" />
-                <span class="text-neutral capitalize">{{ orderType.value }}</span>
+                <span class="text-neutral capitalize">{{ orderType.value.toLowerCase() }}</span>
             </label>
         </div>
     </fieldset>

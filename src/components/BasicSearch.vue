@@ -1,13 +1,30 @@
 <script setup>
 import SearchIcon from './icons/basic/SearchIcon.vue';
+import { ref, watch } from 'vue';
+import { debounce } from 'lodash';
 
-defineProps(['placeholder'])
+const props = defineProps(['modelValue', 'placeholder']);
+const emit = defineEmits(['update:modelValue']);
+
+const internalModel = ref(props.modelValue);
+
+const updateModel = debounce((value) => {
+    emit('update:modelValue', value);
+}, 300);
+
+watch(internalModel, (newVal) => {
+    updateModel(newVal);
+});
+
+watch(() => props.modelValue, (newVal) => {
+    internalModel.value = newVal;
+});
 
 </script>
 
 <template>
     <label class="input input-primary input-sm flex items-center gap-2">
-        <input :placeholder type="text" class="grow" />
+        <input v-model="internalModel" :placeholder="placeholder" type="text" class="grow" />
         <SearchIcon class="size-4" />
     </label>
 </template>

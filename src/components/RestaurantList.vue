@@ -6,10 +6,11 @@ import AddressIcon from './icons/basic/AddressIcon.vue';
 import PickupIcon from './icons/basic/PickupIcon.vue';
 import { useUserSettingsStore } from '@/stores/user-settings';
 import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
+import SearchIcon from './icons/basic/SearchIcon.vue';
+import Fuse from 'fuse.js';
 
 const userSettings = useUserSettingsStore();
 const restaurantPreferences = useRestaurantPreferences();
-
 
 const restaurants = ref([])
 onMounted(async () => {
@@ -23,7 +24,19 @@ onMounted(async () => {
 })
 
 const filteredAndSortedRestaurants = computed(() => {
-    return restaurants.value.filter(r => {
+    let result = restaurants.value;
+    if (restaurantPreferences.searchQuery) {
+        const options = {
+            threshold: 0.2,
+            keys: ['name', 'types']
+        }
+        const fuse = new Fuse(result, options)
+        result = fuse.search(restaurantPreferences.searchQuery).map(i => i.item)
+
+    }
+
+
+    return result.filter(r => {
         const freeDeliveryCondition = !restaurantPreferences.freeDelivery || r.deliveryFee === "0.0";
         const openNowCondition = !restaurantPreferences.openNow || r.isOpen;
         const minRatingCondition = restaurantPreferences.minRating == null || r.rating >= restaurantPreferences.minRating;
@@ -56,7 +69,7 @@ function getImagePath(type) {
 </script>
 
 <template>
-    <div>
+    <div v-if="filteredAndSortedRestaurants.length > 0">
         <h2 class="text-2xl font-semibold">Order from {{ filteredAndSortedRestaurants.length }} places</h2>
 
         <ol class="grid gap-8 mt-4">
@@ -102,5 +115,14 @@ function getImagePath(type) {
                 </div>
             </li>
         </ol>
+    </div>
+
+    <div v-if="filteredAndSortedRestaurants.length === 0 && restaurantPreferences.searchQuery"
+        class="flex flex-col items-center gap-4 mt-16">
+        <SearchIcon class="size-24" />
+        <h2 class="text-2xl font-semibold">{{ `We didn’t find a match for "${restaurantPreferences.searchQuery}"` }}
+        </h2>
+        <p>Try searching for something else instead</p>
+        <button @click="restaurantPreferences.searchQuery = ''" class="btn btn-primary">Reset search</button>
     </div>
 </template>
