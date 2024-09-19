@@ -8,6 +8,7 @@ import AddIcon from '@/components/icons/basic/AddIcon.vue';
 import MinusIcon from '@/components/icons/basic/MinusIcon.vue';
 import StarFilledIcon from '@/components/icons/basic/StarFilledIcon.vue';
 import { useUserSettingsStore } from '@/stores/user-settings';
+import { useShoppingCartStore } from '@/stores/shopping-cart';
 import { getImagePath as getRestaurantImagePath } from '@/utils/restaurant';
 import { getImagePath as getDishImagePath } from '@/utils/dish';
 import _ from 'lodash';
@@ -16,6 +17,7 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute()
 const userSettings = useUserSettingsStore()
+const shoppingCart = useShoppingCartStore()
 
 const restaurant = ref(null)
 onMounted(async () => {
@@ -106,12 +108,19 @@ const menuSections = computed(() => restaurant.value && Object.keys(restaurant.v
 
                             <div class="card-actions justify-end">
                                 <div class="join">
-                                    <button class="btn btn-sm btn-neutral join-item rounded-l-full">
+                                    <button v-if="shoppingCart.getItemCountById(dish.id) !== 0"
+                                        @click="shoppingCart.removeItem(dish.id)"
+                                        class="btn btn-sm btn-neutral join-item rounded-l-full">
                                         <MinusIcon />
                                     </button>
-                                    <span
-                                        class="min-w-8 flex items-center justify-center bg-neutral text-neutral-content">1</span>
-                                    <button class="btn btn-sm btn-neutral join-item rounded-r-full">
+                                    <input v-if="shoppingCart.getItemCountById(dish.id) !== 0" type="number" min="0"
+                                        max="9" :value="shoppingCart.getItemCountById(dish.id)"
+                                        @change="(e) => shoppingCart.addItem(restaurant.name, dish, +e.target.value)"
+                                        class="outline-none 
+                                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral max-w-8 
+                                    bg-neutral text-neutral-content text-center" />
+                                    <button @click="shoppingCart.addItem(restaurant.name, dish)"
+                                        :class="`btn btn-sm btn-neutral join-item ${shoppingCart.getItemCountById(dish.id) === 0 ? 'rounded-full' : 'rounded-r-full'}`">
                                         <AddIcon />
                                     </button>
                                 </div>
