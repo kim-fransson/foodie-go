@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { createServer, Model, Factory } from 'miragejs'
+import { generateDishes } from './utils/restaurant'
 
 export function makeServer({ environment = 'test' }) {
   return createServer({
@@ -18,7 +19,7 @@ export function makeServer({ environment = 'test' }) {
     factories: {
       restaurant: Factory.extend({
         name: () => {
-          const animalType = faker.animal.type() // Get a random animal type
+          const animalType = faker.animal.type()
           const adjective = faker.food.adjective()
 
           const animalMap = {
@@ -69,7 +70,16 @@ export function makeServer({ environment = 'test' }) {
         distance: () => faker.number.float({ multipleOf: 0.1, min: 0.1, max: 10 }),
         address: () => faker.location.streetAddress(),
         deliveryFee: () => faker.commerce.price({ min: 0, max: 5, dec: 1 }),
-        isOpen: () => faker.datatype.boolean(0.8)
+        isOpen: () => faker.datatype.boolean(0.8),
+        menu: {
+          popular: () => generateDishes(1, 5),
+          lunch: () => generateDishes(2, 6),
+          appetizers: () => generateDishes(2, 5),
+          entrees: () => generateDishes(2, 5),
+          sides: () => generateDishes(2, 5),
+          specialties: () => generateDishes(2, 5),
+          chefsPicks: () => generateDishes(2, 5)
+        }
       })
     }
   })

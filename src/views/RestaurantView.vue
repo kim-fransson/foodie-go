@@ -1,11 +1,17 @@
 <script setup>
+import HorizontalCarousel from '@/components/HorizontalCarousel.vue';
 import AddressIcon from '@/components/icons/basic/AddressIcon.vue';
 import DistanceIcon from '@/components/icons/basic/DistanceIcon.vue';
+import InfoIcon from '@/components/icons/basic/InfoIcon.vue';
 import PickupIcon from '@/components/icons/basic/PickupIcon.vue';
+import AddIcon from '@/components/icons/basic/AddIcon.vue';
+import MinusIcon from '@/components/icons/basic/MinusIcon.vue';
 import StarFilledIcon from '@/components/icons/basic/StarFilledIcon.vue';
 import { useUserSettingsStore } from '@/stores/user-settings';
-import { getImagePath } from '@/utils/restaurant';
-import { onMounted, ref } from 'vue';
+import { getImagePath as getRestaurantImagePath } from '@/utils/restaurant';
+import { getImagePath as getDishImagePath } from '@/utils/dish';
+import _ from 'lodash';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
@@ -22,17 +28,21 @@ onMounted(async () => {
     }
 })
 
+const menuSections = computed(() => restaurant.value && Object.keys(restaurant.value.menu));
+
 </script>
 
 <template>
     <main class="max-w-screen-lg w-full mx-auto h-full flex flex-col mt-4 rounded-xl bg-white p-5">
         <div v-if="restaurant">
             <figure>
-                <img :src="getImagePath(restaurant.types[0], true)" :alt="`Stock image for ${restaurant.types[0]} food`"
+                <img :src="getRestaurantImagePath(restaurant.types[0], true)"
+                    :alt="`Stock image for ${restaurant.types[0]} food`"
                     class="w-full h-[200px] object-cover rounded-lg" />
             </figure>
-            <div class="space-y-1 mt-4">
-                <h2 class="text-2xl font-semibold capitalize">{{ restaurant.name }}</h2>
+
+            <div class="flex flex-col gap-1 mt-5">
+                <h2 class="text-3xl font-semibold capitalize">{{ restaurant.name }}</h2>
                 <span class="capitalize">{{ restaurant.types.join(', ') }}</span>
                 <div class="flex gap-2 items-center">
                     <span class="flex gap-1 items-center text-sm">
@@ -60,6 +70,54 @@ onMounted(async () => {
                             }}</span>
                         <span v-else class="text-primary">Free</span>
                     </span>
+                </div>
+            </div>
+
+            <HorizontalCarousel class="mt-8">
+                <a class="font-medium" v-for="section in menuSections" :href="`#${section}`" :key="section">
+                    {{ _.startCase(section) }}
+                    <span v-if="section === 'popular'">❤️</span>
+                    <span v-if="section === 'chefsPicks'">👨🏻‍🍳</span>
+                </a>
+            </HorizontalCarousel>
+
+            <div class="divider"></div>
+
+            <div class="mt-8" v-for="section in menuSections" :key="section">
+                <h2 class="text-2xl font-medium" :id="section">
+                    {{ _.startCase(section) }}
+                    <span v-if="section === 'popular'">❤️</span>
+                    <span v-if="section === 'chefsPicks'">👨🏻‍🍳</span>
+                </h2>
+                <span class="mt-1 text-sm opacity-60 flex items-center gap-2" v-if="section === 'lunch'">
+                    <InfoIcon />
+                    Please note: products in this category can only be delivered between: 12:00 - 16:00
+                </span>
+
+                <div class="grid grid-cols-2 mt-6 gap-5">
+                    <div class="card bg-base-100 shadow-xl" v-for="dish in restaurant.menu[section]" :key="dish.title">
+                        <figure>
+                            <img :src="getDishImagePath(dish.title)" :alt="`Stock image for ${dish.title} food`" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">{{ dish.title }}</h2>
+                            <p>{{ dish.price }}</p>
+                            <p class="opacity-60">{{ dish.description }}</p>
+
+                            <div class="card-actions justify-end">
+                                <div class="join">
+                                    <button class="btn btn-sm btn-neutral join-item rounded-l-full">
+                                        <MinusIcon />
+                                    </button>
+                                    <span
+                                        class="min-w-8 flex items-center justify-center bg-neutral text-neutral-content">1</span>
+                                    <button class="btn btn-sm btn-neutral join-item rounded-r-full">
+                                        <AddIcon />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
