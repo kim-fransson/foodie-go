@@ -1,23 +1,23 @@
 <script setup>
+import { computed, onMounted, ref } from 'vue';
+import _ from 'lodash';
+import { useRoute } from 'vue-router';
+
+
 import HorizontalCarousel from '@/components/HorizontalCarousel.vue';
 import AddressIcon from '@/components/icons/basic/AddressIcon.vue';
 import DistanceIcon from '@/components/icons/basic/DistanceIcon.vue';
 import InfoIcon from '@/components/icons/basic/InfoIcon.vue';
 import PickupIcon from '@/components/icons/basic/PickupIcon.vue';
-import AddIcon from '@/components/icons/basic/AddIcon.vue';
-import MinusIcon from '@/components/icons/basic/MinusIcon.vue';
 import StarFilledIcon from '@/components/icons/basic/StarFilledIcon.vue';
+import DishCard from '@/components/dish/DishCard.vue';
+
 import { useUserSettingsStore } from '@/stores/user-settings';
-import { useShoppingCartStore } from '@/stores/shopping-cart';
-import { getImagePath as getRestaurantImagePath } from '@/utils/restaurant';
-import { getImagePath as getDishImagePath } from '@/utils/dish';
-import _ from 'lodash';
-import { computed, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+
+import { getImagePath } from '@/utils/restaurant';
 
 const route = useRoute()
 const userSettings = useUserSettingsStore()
-const shoppingCart = useShoppingCartStore()
 
 const restaurant = ref(null)
 onMounted(async () => {
@@ -38,8 +38,7 @@ const menuSections = computed(() => restaurant.value && Object.keys(restaurant.v
     <main class="max-w-screen-lg w-full mx-auto h-full flex flex-col mt-4 rounded-xl bg-white p-5">
         <div v-if="restaurant">
             <figure>
-                <img :src="getRestaurantImagePath(restaurant.types[0], true)"
-                    :alt="`Stock image for ${restaurant.types[0]} food`"
+                <img :src="getImagePath(restaurant.types[0], true)" :alt="`Stock image for ${restaurant.types[0]} food`"
                     class="w-full h-[200px] object-cover rounded-lg" />
             </figure>
 
@@ -96,37 +95,9 @@ const menuSections = computed(() => restaurant.value && Object.keys(restaurant.v
                     Please note: products in this category can only be delivered between: 12:00 - 16:00
                 </span>
 
-                <div class="grid grid-cols-2 mt-6 gap-5">
-                    <div class="card bg-base-100 shadow-xl" v-for="dish in restaurant.menu[section]" :key="dish.title">
-                        <figure>
-                            <img :src="getDishImagePath(dish.title)" :alt="`Stock image for ${dish.title} food`" />
-                        </figure>
-                        <div class="card-body">
-                            <h2 class="card-title">{{ dish.title }}</h2>
-                            <p>{{ dish.price }}</p>
-                            <p class="opacity-60">{{ dish.description }}</p>
-
-                            <div class="card-actions justify-end">
-                                <div class="join">
-                                    <button v-if="shoppingCart.getItemCountById(dish.id) !== 0"
-                                        @click="shoppingCart.removeItem(dish.id)"
-                                        class="btn btn-sm btn-neutral join-item rounded-l-full">
-                                        <MinusIcon />
-                                    </button>
-                                    <input v-if="shoppingCart.getItemCountById(dish.id) !== 0" type="number" min="0"
-                                        max="9" :value="shoppingCart.getItemCountById(dish.id)"
-                                        @change="(e) => shoppingCart.addItem(restaurant.name, dish, +e.target.value)"
-                                        class="outline-none 
-                                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral max-w-8 
-                                    bg-neutral text-neutral-content text-center" />
-                                    <button @click="shoppingCart.addItem(restaurant.name, dish)"
-                                        :class="`btn btn-sm btn-neutral join-item ${shoppingCart.getItemCountById(dish.id) === 0 ? 'rounded-full' : 'rounded-r-full'}`">
-                                        <AddIcon />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 mt-6 gap-5">
+                    <DishCard v-for="dish in restaurant.menu[section]" :key="dish.title" :dish
+                        :restaurantName="restaurant.name" />
                 </div>
             </div>
         </div>

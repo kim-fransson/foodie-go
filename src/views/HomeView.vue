@@ -2,7 +2,7 @@
 import DebounceSearch from '@/components/DebounceSearch.vue';
 import BasicToggle from '@/components/BasicToggle.vue';
 import FoodFilters from '@/components/FoodFilters.vue';
-import RestaurantList from '@/components/RestaurantList.vue';
+import RestaurantList from '@/components/restaurant/RestaurantList.vue';
 import SortByDropdown from '@/components/SortByDropdown.vue';
 import StarRatings from '@/components/StarRatings.vue';
 import { useRestaurantPreferences } from '@/stores/restaurant-preferences';

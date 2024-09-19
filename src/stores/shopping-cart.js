@@ -7,7 +7,8 @@ export const useShoppingCartStore = defineStore('shopping-cart', {
   getters: {
     getItemCountById: (state) => {
       return (dishId) => state.items.find((item) => item.id === dishId)?.amount || 0
-    }
+    },
+    getNumberOfItems: (state) => state.items.reduce((acc, curr) => acc + curr.amount, 0)
   },
   actions: {
     addItem(restaurant, dish, amount = 1) {
