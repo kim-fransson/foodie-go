@@ -7,7 +7,7 @@ import AddIcon from '@/components/icons/basic/AddIcon.vue';
 import { computed } from 'vue';
 
 
-const props = defineProps(['dish', 'restaurantName'])
+const props = defineProps(['dish', 'restaurant'])
 
 const shoppingCart = useShoppingCartStore()
 
@@ -22,7 +22,7 @@ const count = computed(() => shoppingCart.getItemCountById(props.dish.id))
         </figure>
         <div class="card-body">
             <h2 class="card-title">{{ dish.title }}</h2>
-            <p>{{ dish.price }}</p>
+            <p>$ {{ dish.price }}</p>
             <p class="opacity-60">{{ dish.description }}</p>
 
             <div class="card-actions justify-end">
@@ -32,10 +32,10 @@ const count = computed(() => shoppingCart.getItemCountById(props.dish.id))
                         <MinusIcon />
                     </button>
                     <input v-if="count !== 0" type="number" min="0" max="9" :value="count"
-                        @change="(e) => shoppingCart.addItem(restaurantName, dish, +e.target.value)" class="outline-none 
+                        @change="(e) => shoppingCart.addItem(restaurant.id, dish, +e.target.value)" class="outline-none 
                                     focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral max-w-8 
                                     bg-neutral text-neutral-content text-center" />
-                    <button @click="shoppingCart.addItem(restaurantName, dish)"
+                    <button @click="shoppingCart.addItem(restaurant.id, dish)"
                         :class="`btn btn-sm btn-neutral join-item ${count === 0 ? 'rounded-full' : 'rounded-r-full'}`">
                         <AddIcon />
                     </button>

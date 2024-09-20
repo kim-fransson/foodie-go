@@ -69,7 +69,7 @@ export function makeServer({ environment = 'test' }) {
         numberOfReviews: () => faker.number.int({ min: 10, max: 999 }),
         distance: () => faker.number.float({ multipleOf: 0.1, min: 0.1, max: 10 }),
         address: () => faker.location.streetAddress(),
-        deliveryFee: () => faker.commerce.price({ min: 0, max: 5, dec: 1 }),
+        deliveryFee: () => Number.parseFloat(faker.commerce.price({ min: 0, max: 5, dec: 1 })),
         isOpen: () => faker.datatype.boolean(0.8),
         menu: {
           popular: () => generateDishes(1, 5),

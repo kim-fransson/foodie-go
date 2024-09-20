@@ -12,7 +12,7 @@ export const generateDishes = (min, max) => {
   const dishes = []
   for (let i = 0; i < numberOfDishes; i++) {
     const title = faker.food.dish()
-    const price = faker.commerce.price({ min: 8, max: 15, symbol: '$' })
+    const price = Number.parseFloat(faker.commerce.price({ min: 8, max: 15 }))
     const description = faker.food.description()
     dishes.push({ title, price, description, id: uuidv4() })
   }

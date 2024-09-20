@@ -1,5 +1,9 @@
 <script setup>
 import NavigationMenu from './components/NavigationMenu.vue';
+import { useRestaurants } from './stores/restaurants';
+
+const restaurants = useRestaurants();
+restaurants.registerRestaurants();
 
 </script>
 

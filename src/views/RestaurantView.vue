@@ -96,8 +96,7 @@ const menuSections = computed(() => restaurant.value && Object.keys(restaurant.v
                 </span>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 mt-6 gap-5">
-                    <DishCard v-for="dish in restaurant.menu[section]" :key="dish.title" :dish
-                        :restaurantName="restaurant.name" />
+                    <DishCard v-for="dish in restaurant.menu[section]" :key="dish.title" :dish :restaurant />
                 </div>
             </div>
         </div>

@@ -1,27 +1,19 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import Fuse from 'fuse.js';
 
 import SearchIcon from '@/components/icons/basic/SearchIcon.vue';
 import RestaurantCard from './RestaurantCard.vue';
 
 import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
+import { useRestaurants } from '@/stores/restaurants';
 
 const restaurantPreferences = useRestaurantPreferences();
+const restaurants = useRestaurants();
 
-const restaurants = ref([])
-onMounted(async () => {
-    try {
-        await fetch('/api/restaurants')
-            .then((res) => res.json())
-            .then((json) => restaurants.value = json.restaurants)
-    } catch (error) {
-        // todo
-    }
-})
 
 const filteredAndSortedRestaurants = computed(() => {
-    let result = restaurants.value;
+    let result = restaurants.items;
     if (restaurantPreferences.searchQuery) {
         const options = {
             threshold: 0.2,
