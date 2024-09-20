@@ -8,8 +8,8 @@ const model = defineModel()
 
 <template>
     <div class="flex flex-col justify-start gap-2">
-        <label class="label-text font-medium pl-1">{{ label }}</label>
-        <div class="rating rating-half">
+        <label class="label-text font-medium pl-1 lg:text-base text-lg">{{ label }}</label>
+        <div class="rating lg:rating-md rating-lg rating-half">
             <input v-model="model" :value="0" type="radio" name="rating-10" class="rating-hidden" />
 
             <template v-for="star in stars" :key="star">

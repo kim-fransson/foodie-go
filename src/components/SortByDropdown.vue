@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { onClickOutside } from '@vueuse/core'
 import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
 import { closeDropdown } from '@/utils/daisy-ui';
@@ -31,13 +31,21 @@ function applySortBy() {
     closeDropdown(dropdown)
 }
 
+watch(() => {
+    console.log({
+        internal: selectedSortBy.value,
+        store: restaurantPreferences.sortBy
+    })
+})
+
 const selectedText = computed(() => sortByItems.find(i => i.value === restaurantPreferences.sortBy).text)
 
 </script>
 
 <template>
     <details ref="dropdown" class="dropdown dropdown-end self-start">
-        <summary class="select select-primary select-sm w-full">{{ selectedText }}</summary>
+        <summary class="select select-primary lg:select-sm w-full flex items-center lg:text-base text-lg">{{
+            selectedText }}</summary>
         <div tabindex="0" class="card mt-2 dropdown-content bg-white rounded-box z-[1] lg:w-fit w-full shadow-lg">
             <div tabindex="0" class="card-body">
                 <h2 class="card-title">Sort by</h2>
