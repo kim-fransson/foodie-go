@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import ShoppingCartIcon from './icons/basic/ShoppingCartIcon.vue';
 import { onClickOutside } from '@vueuse/core'
 import { useShoppingCartStore } from '@/stores/shopping-cart';

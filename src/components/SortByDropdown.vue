@@ -38,7 +38,7 @@ const selectedText = computed(() => sortByItems.find(i => i.value === restaurant
 <template>
     <details ref="dropdown" class="dropdown dropdown-end self-start">
         <summary class="select select-primary select-sm w-full">{{ selectedText }}</summary>
-        <div tabindex="0" class="card mt-2 dropdown-content bg-white rounded-box z-[1] w-fit shadow-lg">
+        <div tabindex="0" class="card mt-2 dropdown-content bg-white rounded-box z-[1] lg:w-fit w-full shadow-lg">
             <div tabindex="0" class="card-body">
                 <h2 class="card-title">Sort by</h2>
                 <fieldset>

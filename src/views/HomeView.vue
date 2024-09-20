@@ -5,8 +5,8 @@ import FoodFilters from '@/components/FoodFilters.vue';
 import RestaurantList from '@/components/restaurant/RestaurantList.vue';
 import SortByDropdown from '@/components/SortByDropdown.vue';
 import StarRatings from '@/components/StarRatings.vue';
-import FilterIcon from '@/components/icons/basic/FilterIcon.vue';
 import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
+import FilterDrawerTrigger from '@/components/FilterDrawerTrigger.vue';
 
 const restaurantPreferences = useRestaurantPreferences()
 
@@ -26,9 +26,8 @@ const restaurantPreferences = useRestaurantPreferences()
                 <DebounceSearch v-model="restaurantPreferences.searchQuery" class="lg:col-span-8 col-span-10"
                     placeholder="What you want to eat today?" />
                 <SortByDropdown class="col-span-4 hidden lg:block" />
-                <button class="lg:hidden btn btn-circle btn-sm col-span-2 justify-self-end">
-                    <FilterIcon />
-                </button>
+
+                <FilterDrawerTrigger class="lg:hidden col-span-2 justify-self-end" />
 
                 <div class="col-span-full">
                     <RestaurantList />

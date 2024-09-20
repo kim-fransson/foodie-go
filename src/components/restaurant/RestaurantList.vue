@@ -11,7 +11,6 @@ import { useRestaurants } from '@/stores/restaurants';
 const restaurantPreferences = useRestaurantPreferences();
 const restaurants = useRestaurants();
 
-
 const filteredAndSortedRestaurants = computed(() => {
     let result = restaurants.items;
     if (restaurantPreferences.searchQuery) {
