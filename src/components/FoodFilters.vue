@@ -44,7 +44,7 @@ const filters = [
             <label
                 class="inline-flex flex-col items-center cursor-pointer peer-checked:bg-primary transition-colors rounded-lg p-1"
                 :for="filter.value">
-                <component :is="filter.icon" />
+                <component :is="filter.icon" class="max-w-12 lg:max-w-none" />
                 <span class="capitalize text-sm font-medium whitespace-nowrap">{{ filter.value }}</span>
             </label>
         </div>

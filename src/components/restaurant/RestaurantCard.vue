@@ -15,8 +15,8 @@ const userSettings = useUserSettingsStore()
 </script>
 
 <template>
-    <div class="card card-compact card-side bg-base-100 shadow-xl">
-        <figure class="max-w-56">
+    <div class="card card-compact lg:card-side bg-base-100 shadow-xl">
+        <figure class="lg:max-w-56">
             <img class="h-full object-cover" :src="getImagePath(restaurant.types[0])"
                 :alt="`Stock image for ${restaurant.types[0]} food`" />
         </figure>

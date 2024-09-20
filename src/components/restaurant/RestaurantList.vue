@@ -53,9 +53,9 @@ const filteredAndSortedRestaurants = computed(() => {
 
 <template>
     <div v-if="filteredAndSortedRestaurants.length > 0">
-        <h2 class="text-2xl font-semibold">Order from {{ filteredAndSortedRestaurants.length }} places</h2>
+        <h2 class="lg:text-2xl text-xl font-semibold">Order from {{ filteredAndSortedRestaurants.length }} places</h2>
 
-        <ol class="grid gap-8 mt-4">
+        <ol class="grid lg:gap-8 gap-4 mt-4">
             <li v-for="restaurant in filteredAndSortedRestaurants" :key="restaurant.id">
                 <RouterLink :to="`/restaurants/${restaurant.id}`">
                     <RestaurantCard :restaurant />
@@ -71,5 +71,16 @@ const filteredAndSortedRestaurants = computed(() => {
         </h2>
         <p>Try searching for something else instead</p>
         <button @click="restaurantPreferences.searchQuery = ''" class="btn btn-primary">Reset search</button>
+    </div>
+
+
+    <div v-if="restaurants.loading" class="flex justify-center mt-16">
+        <span class="loading loading-dots loading-lg"></span>
+    </div>
+
+    <div v-if="filteredAndSortedRestaurants.length === 0 && !restaurants.loading"
+        class="flex flex-col items-center gap-4 mt-16">
+        <h2 class="text-2xl font-semibold">Uh-oh! No restaurants matched your cravings</h2>
+        <p>How about tweaking your taste?</p>
     </div>
 </template>

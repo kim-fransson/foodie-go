@@ -46,8 +46,8 @@ watchEffect(() => {
 </script>
 
 <template>
-    <div ref="listRef" class="overflow-hidden pl-8 mt-4 relative">
-        <div v-if="isLeftButtonVisible" class="top-1/2 left-0 z-50 absolute -translate-y-1/2 flex items-center justify-center aspect-square h-full
+    <div ref="listRef" class="lg:overflow-hidden overflow-x-auto pl-8 lg:mt-4 relative">
+        <div v-if="isLeftButtonVisible" class="lg:flex hidden top-1/2 left-0 z-50 absolute -translate-y-1/2 items-center justify-center aspect-square h-full
             bg-gradient-to-r from-base-100 to-transparent">
             <button @click="translateListLeft" class="btn-circle btn btn-xs">
                 <ArrowIcon class="rotate-180 w-5 h-5" />
@@ -57,7 +57,7 @@ watchEffect(() => {
             class="flex gap-12 transition-transform duration-300">
             <slot></slot>
         </fieldset>
-        <div v-if="isRightButtonVisible" class="top-1/2 right-0 z-50 absolute -translate-y-1/2 flex items-center justify-center aspect-square h-full
+        <div v-if="isRightButtonVisible" class="hidden lg:flex top-1/2 right-0 z-50 absolute -translate-y-1/2 items-center justify-center aspect-square h-full
             bg-gradient-to-l from-base-100 to-transparent">
             <button @click="translateListRight" class="btn-circle btn btn-xs">
                 <ArrowIcon class="h-5 w-5" />

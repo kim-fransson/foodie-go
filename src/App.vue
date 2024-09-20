@@ -8,7 +8,7 @@ restaurants.registerRestaurants();
 </script>
 
 <template>
-  <div class="grid grid-rows-[auto_1fr] min-h-screen">
+  <div class="grid grid-rows-[auto_1fr] min-h-screen overflow-x-hidden">
     <NavigationMenu />
     <RouterView />
   </div>

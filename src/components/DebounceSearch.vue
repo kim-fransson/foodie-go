@@ -24,7 +24,7 @@ watch(() => props.modelValue, (newVal) => {
 
 <template>
     <label class="input input-primary input-sm flex items-center gap-2">
-        <input v-model.trim="internalModel" :placeholder="placeholder" type="text" class="grow" />
-        <SearchIcon class="size-4" />
+        <SearchIcon class="size-4 shrink-0" />
+        <input v-model.trim="internalModel" :placeholder="placeholder" type="text" class="grow min-w-0" />
     </label>
 </template>
