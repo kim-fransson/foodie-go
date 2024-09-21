@@ -5,6 +5,7 @@ import LocalizationIcon from './icons/basic/LocalizationIcon.vue';
 import LogoIcon from './icons/basic/LogoIcon.vue';
 import ShoppingCartButton from './ShoppingCartButton.vue';
 import NavigationIcon from './icons/basic/NavigationIcon.vue';
+import ShoppingCartDrawerTrigger from './ShoppingCartDrawerTrigger.vue';
 </script>
 
 <template>
@@ -23,7 +24,8 @@ import NavigationIcon from './icons/basic/NavigationIcon.vue';
                 </div>
             </div>
             <div className="navbar-end flex lg:gap-6">
-                <ShoppingCartButton />
+                <ShoppingCartButton class="hidden lg:block" />
+                <ShoppingCartDrawerTrigger class="lg:hidden" />
                 <div class="lg:flex hidden gap-2">
                     <button class="btn btn-ghost">Sign in</button>
                     <button class="btn btn-primary">Create account</button>

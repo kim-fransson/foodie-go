@@ -31,13 +31,6 @@ function applySortBy() {
     closeDropdown(dropdown)
 }
 
-watch(() => {
-    console.log({
-        internal: selectedSortBy.value,
-        store: restaurantPreferences.sortBy
-    })
-})
-
 const selectedText = computed(() => sortByItems.find(i => i.value === restaurantPreferences.sortBy).text)
 
 </script>

@@ -1,8 +1,8 @@
 <script setup>
 import { useRestaurantPreferences } from '@/stores/restaurant-preferences';
-import BasicToggle from './BasicToggle.vue';
-import StarRatings from './StarRatings.vue';
-import SortByDropdown from './SortByDropdown.vue';
+import BasicToggle from '../BasicToggle.vue';
+import StarRatings from '../StarRatings.vue';
+import SortByDropdown from '../SortByDropdown.vue';
 
 const restaurantPreferences = useRestaurantPreferences()
 

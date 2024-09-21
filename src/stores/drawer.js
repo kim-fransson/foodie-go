@@ -14,6 +14,8 @@ export const useDrawerStore = defineStore('drawer', {
       this.drawerElement = drawer
     },
     close() {
+      this.content = undefined
+      this.title = ''
       closeDrawer(this.drawerElement)
     },
     open(title, content) {
