@@ -35,11 +35,12 @@ const menuSections = computed(() => restaurant.value && Object.keys(restaurant.v
 </script>
 
 <template>
-    <main class="max-w-screen-lg w-full mx-auto h-full flex flex-col mt-4 rounded-xl bg-white p-5">
+    <main
+        class="max-w-screen-lg lg:w-full lg:mx-auto overflow-hidden mx-4 h-full flex flex-col mt-4 rounded-xl bg-white p-5">
         <div v-if="restaurant">
             <figure>
                 <img :src="getImagePath(restaurant.types[0], true)" :alt="`Stock image for ${restaurant.types[0]} food`"
-                    class="w-full h-[200px] object-cover rounded-lg" />
+                    class="w-full lg:h-[200px] h-[100px] object-cover rounded-lg" />
             </figure>
 
             <div class="flex flex-col gap-1 mt-5">
@@ -75,7 +76,8 @@ const menuSections = computed(() => restaurant.value && Object.keys(restaurant.v
             </div>
 
             <HorizontalCarousel class="mt-8">
-                <a class="font-medium" v-for="section in menuSections" :href="`#${section}`" :key="section">
+                <a class="font-medium whitespace-nowrap" v-for="section in menuSections" :href="`#${section}`"
+                    :key="section">
                     {{ _.startCase(section) }}
                     <span v-if="section === 'popular'">❤️</span>
                     <span v-if="section === 'chefsPicks'">👨🏻‍🍳</span>

@@ -10,7 +10,7 @@ const drawer = useDrawerStore();
 </script>
 
 <template>
-    <div v-if="shoppingCart.getNumberOfItems === 0" class="flex flex-col items-center text-center gap-3 mt-36">
+    <div v-if="shoppingCart.getNumberOfItems === 0" class="flex flex-col items-center text-center gap-3 mt-40">
         <ShoppingCartIcon />
         <h2 class="card-title">Your cart is empty</h2>
         <p>Add items from a restaurant or store to start a new cart</p>

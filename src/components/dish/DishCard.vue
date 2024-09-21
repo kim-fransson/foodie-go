@@ -16,7 +16,7 @@ const count = computed(() => shoppingCart.getItemCountById(props.dish.id))
 </script>
 
 <template>
-    <div class="card bg-base-100 shadow-xl">
+    <div class="card card-compact bg-base-100 shadow-xl">
         <figure>
             <img :src="getImagePath(dish.title)" :alt="`Stock image for ${dish.title} food`" />
         </figure>
